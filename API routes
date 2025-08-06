@@ -1,0 +1,112 @@
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import express from "express";
+import { storage } from "./storage";
+import { insertPaperSchema, insertContactSchema } from "@shared/schema";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+// Configure multer for file uploads
+const uploadDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const upload = multer({
+  dest: uploadDir,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF files are allowed'));
+    }
+  }
+});
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve uploaded files
+  app.use('/uploads', (req, res, next) => {
+    res.header('Content-Type', 'application/pdf');
+    next();
+  });
+  app.use('/uploads', express.static(uploadDir));
+
+  // GET /api/papers - Get all papers
+  app.get("/api/papers", async (req, res) => {
+    try {
+      const papers = await storage.getPapers();
+      res.json(papers);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch papers" });
+    }
+  });
+
+  // POST /api/papers - Upload a new paper
+  app.post("/api/papers", upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      const { title, description, author, category, year } = req.body;
+      
+      const paperData = insertPaperSchema.parse({
+        title,
+        description,
+        author,
+        category,
+        year: parseInt(year),
+        fileName: req.file.originalname,
+        filePath: `/uploads/${req.file.filename}`
+      });
+
+      const paper = await storage.createPaper(paperData);
+      res.status(201).json(paper);
+    } catch (error) {
+      console.error('Paper upload error:', error);
+      if (req.file) {
+        // Clean up uploaded file on error
+        fs.unlink(req.file.path, () => {});
+      }
+      res.status(400).json({ message: error instanceof Error ? error.message : "Failed to upload paper" });
+    }
+  });
+
+  // GET /api/projects - Get all projects
+  app.get("/api/projects", async (req, res) => {
+    try {
+      const projects = await storage.getProjects();
+      res.json(projects);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch projects" });
+    }
+  });
+
+  // GET /api/executives - Get all executive members
+  app.get("/api/executives", async (req, res) => {
+    try {
+      const executives = await storage.getExecutives();
+      res.json(executives);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch executives" });
+    }
+  });
+
+  // POST /api/contacts - Submit contact form
+  app.post("/api/contacts", async (req, res) => {
+    try {
+      const contactData = insertContactSchema.parse(req.body);
+      const contact = await storage.createContact(contactData);
+      res.status(201).json(contact);
+    } catch (error) {
+      res.status(400).json({ message: error instanceof Error ? error.message : "Failed to submit contact form" });
+    }
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+}
