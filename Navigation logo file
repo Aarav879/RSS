@@ -1,0 +1,101 @@
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import logoImage from "../assets/logo.jpeg";
+
+export default function Navigation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <>
+      <nav 
+        className={`fixed top-0 w-full z-50 transition-all duration-300 border-b border-royal-gold/20 ${
+          isScrolled ? 'bg-royal-navy/95 backdrop-blur-sm' : 'bg-royal-navy/90'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-white/10 backdrop-blur-sm border border-royal-gold/30">
+                <img 
+                  src={logoImage} 
+                  alt="Royal Society of Sciences Logo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h1 className="font-playfair text-lg font-semibold text-royal-gold">Royal Society</h1>
+                <p className="text-xs text-gray-300">of Sciences</p>
+              </div>
+            </div>
+            
+            <div className="hidden md:flex space-x-8">
+              <button onClick={() => scrollToSection('hero')} className="hover:text-royal-gold transition-colors">
+                Home
+              </button>
+              <button onClick={() => scrollToSection('about')} className="hover:text-royal-gold transition-colors">
+                About
+              </button>
+              <button onClick={() => scrollToSection('papers')} className="hover:text-royal-gold transition-colors">
+                Papers
+              </button>
+              <button onClick={() => scrollToSection('projects')} className="hover:text-royal-gold transition-colors">
+                Projects
+              </button>
+              <button onClick={() => scrollToSection('executive')} className="hover:text-royal-gold transition-colors">
+                Executive
+              </button>
+            </div>
+            
+            <button 
+              className="md:hidden text-royal-gold"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="text-xl" /> : <Menu className="text-xl" />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-royal-navy/95 backdrop-blur-sm md:hidden">
+          <div className="flex flex-col items-center justify-center h-full space-y-8 text-xl">
+            <button onClick={() => scrollToSection('hero')} className="hover:text-royal-gold transition-colors">
+              Home
+            </button>
+            <button onClick={() => scrollToSection('about')} className="hover:text-royal-gold transition-colors">
+              About
+            </button>
+            <button onClick={() => scrollToSection('papers')} className="hover:text-royal-gold transition-colors">
+              Papers
+            </button>
+            <button onClick={() => scrollToSection('projects')} className="hover:text-royal-gold transition-colors">
+              Projects
+            </button>
+            <button onClick={() => scrollToSection('executive')} className="hover:text-royal-gold transition-colors">
+              Executive
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
