@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Royal Society Colors */
+  --royal-navy: hsl(240, 62%, 16%);
+  --royal-gold: hsl(45, 77%, 45%);
+  --deep-space: hsl(240, 24%, 13%);
+  --nebula: hsl(240, 32%, 18%);
+  --cosmic: hsl(220, 55%, 20%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-royal-navy text-white overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .bg-royal-navy {
+    background-color: hsl(240, 62%, 16%);
+  }
+  
+  .bg-royal-gold {
+    background-color: hsl(45, 77%, 45%);
+  }
+  
+  .bg-deep-space {
+    background-color: hsl(240, 24%, 28%);
+  }
+  
+  .bg-nebula {
+    background-color: hsl(240, 32%, 18%);
+  }
+  
+  .bg-cosmic {
+    background-color: hsl(220, 55%, 20%);
+  }
+  
+  .text-royal-navy {
+    color: hsl(240, 62%, 16%);
+  }
+  
+  .text-royal-gold {
+    color: hsl(45, 77%, 45%);
+  }
+  
+  .border-royal-gold {
+    border-color: hsl(45, 77%, 45%);
+  }
+  
+  .border-royal-gold\/20 {
+    border-color: hsl(45, 77%, 45%, 0.2);
+  }
+  
+  .border-royal-gold\/40 {
+    border-color: hsl(45, 77%, 45%, 0.4);
+  }
+  
+  .hover\:bg-royal-gold:hover {
+    background-color: hsl(45, 77%, 45%);
+  }
+  
+  .hover\:text-royal-gold:hover {
+    color: hsl(45, 77%, 45%);
+  }
+  
+  .hover\:border-royal-gold:hover {
+    border-color: hsl(45, 77%, 45%);
+  }
+  
+  .hover\:border-royal-gold\/40:hover {
+    border-color: hsl(45, 77%, 45%, 0.4);
+  }
+}
+
+/* Custom animations */
+@keyframes swirl {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes blackhole-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.05); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  75% { transform: rotate(270deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes blackhole-accretion {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  33% { transform: rotate(120deg) scale(1.2); opacity: 0.6; }
+  66% { transform: rotate(240deg) scale(0.9); opacity: 0.9; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
+}
+
+@keyframes blackhole-event-horizon {
+  0% { transform: rotate(0deg) scale(1); box-shadow: 0 0 0 rgba(200, 149, 27, 0.5); }
+  50% { transform: rotate(180deg) scale(1.1); box-shadow: 0 0 60px rgba(200, 149, 27, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.8); }
+  100% { transform: rotate(360deg) scale(1); box-shadow: 0 0 0 rgba(200, 149, 27, 0.5); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Chemistry Elements Animation */
+@keyframes floatMolecule {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes molecularBond {
+  0%, 100% { 
+    transform: scaleX(1);
+    opacity: 0.2;
+  }
+  50% { 
+    transform: scaleX(1.05);
+    opacity: 0.4;
+  }
+}
+
+@keyframes periodicFloat {
+  0%, 100% { 
+    transform: translateX(0px) translateY(0px);
+    opacity: 0.1;
+  }
+  25% { 
+    transform: translateX(5px) translateY(-5px);
+    opacity: 0.2;
+  }
+  50% { 
+    transform: translateX(0px) translateY(-10px);
+    opacity: 0.25;
+  }
+  75% { 
+    transform: translateX(-5px) translateY(-5px);
+    opacity: 0.2;
+  }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+}
+
+@keyframes orbit-large {
+  0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
+
+@keyframes orbit-small {
+  0% { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+.animate-swirl {
+  animation: swirl 15s infinite linear;
+}
+
+.animate-blackhole-spin {
+  animation: blackhole-spin 12s infinite ease-in-out;
+}
+
+.animate-blackhole-accretion {
+  animation: blackhole-accretion 8s infinite ease-in-out;
+}
+
+.animate-blackhole-event-horizon {
+  animation: blackhole-event-horizon 10s infinite ease-in-out;
+}
+
+.animate-orbit {
+  animation: orbit 15s infinite linear;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite;
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(200, 149, 27, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Scroll reveal animation */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-radial-black-hole {
+  background: radial-gradient(circle, #000000, hsl(240, 62%, 16%));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(240, 62%, 16%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(45, 77%, 45%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(45, 77%, 55%);
+}
